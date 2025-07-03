@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sarimanok Studios Booking Page</title>
+  <style>
+    body{font-family:Arial,Helvetica,sans-serif;margin:0;background:#fff}
+    .container{max-width:850px;margin:auto;padding:20px}
+    h1{text-align:center;margin:0 0 20px}
+    /* Tabs */
+    .tabs{display:flex;gap:4px;margin-bottom:16px}
+    .tab-button{flex:1;padding:12px;border:none;border-radius:3px;background:#f0f0f0;cursor:pointer;font-weight:bold}
+    .tab-button.active{background:#b22222;color:#fff}
+    .tab-content{display:none}
+    .tab-content.active{display:block}
+    /* Accordions */
+    .accordion{width:100%;padding:12px;border:none;border-radius:3px;background:#eee;text-align:left;margin-top:6px;cursor:pointer;font-weight:bold;transition:.3s}
+    .accordion.active,.accordion:hover{background:#ccc}
+    .panel{display:none;border:1px solid #ccc;border-radius:3px;padding:12px;margin-top:4px;background:#fff}
+    .number-control{display:flex;align-items:center;gap:6px;margin:8px 0}
+    .num-btn{width:28px;height:28px;border:none;border-radius:50%;background:#000;color:#fff;cursor:pointer;font-weight:bold}
+    .num-input{width:48px;text-align:center;border:1px solid #ccc;border-radius:3px}
+    .choose-button{margin-top:8px;padding:8px 14px;border:none;border-radius:3px;background:#000;color:#fff;cursor:pointer}
+    .action-row{margin-top:16px}
+    .action-row button{padding:10px 18px;font-size:15px;border:none;border-radius:3px;cursor:pointer}
+    .main{background:#b22222;color:#fff}
+    .clear{background:#ccc}
+    /* Summary */
+    .summary-table{width:100%;border-collapse:collapse;margin-top:18px}
+    .summary-table td{padding:6px;border-bottom:1px solid #e0e0e0}
+    .summary-table td:last-child{text-align:right}
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Sarimanok Studios Booking Page</h1>
+  <div class="tabs">
+    <button class="tab-button active" onclick="switchTab('sessions',this)">Sessions</button>
+    <button class="tab-button" onclick="switchTab('prints',this)">Additional Prints & Services</button>
+  </div>
+  <!-- Sessions Tab -->
+  <div id="sessions" class="tab-content active">
+    <!-- Solo -->
+    <button class="accordion" onclick="togglePanel(this)">Solo Pictorial – ₱500</button>
+    <div class="panel">
+      <p>10‑minute session · 1 x 8r  print · <strong>5 edited softcopies</strong></p>
+      <div class="number-control">
+        <label>Extra Heads </label>
+        <button class="num-btn" onclick="updateQty('soloHeads',-1)">−</button>
+        <input id="soloHeads" class="num-input" type="number" value="0" min="0">
+        <button class="num-btn" onclick="updateQty('soloHeads',1)">+</button>
+      </div>
+      <label><input id="soloSoft" type="checkbox"> Get all softcopies (₱200)</label><br>
+      <button class="choose-button" onclick="addSession('Solo Pictorial',500,'soloHeads','soloSoft')">Choose This Session</button>
+    </div>
+    <!-- Group -->
+    <button class="accordion" onclick="togglePanel(this)">Group Pictorial – ₱700</button>
+    <div class="panel">
+      <p>15‑minute session · up to 4 people · 2 wallet size per head, group print · <strong>8 edited softcopies</strong></p>
+      <div class="number-control">
+        <label>Extra Members (₱100)</label>
+        <button class="num-btn" onclick="updateQty('groupHeads',-1)">−</button>
+        <input id="groupHeads" class="num-input" type="number" value="0" min="0">
+        <button class="num-btn" onclick="updateQty('groupHeads',1)">+</button>
+      </div>
+      <label><input id="groupSoft" type="checkbox"> Get all softcopies (₱200)</label><br>
+      <button class="choose-button" onclick="addSession('Group Pictorial',700,'groupHeads','groupSoft')">Choose This Session</button>
+      <p style="font-size: 0.9em; margin-top: 8px;">*If members exceed 4, additional <strong>2 edited softcopies</strong> per head will be included.</p>
+    </div>
+    <!-- Graduation -->
+    <button class="accordion" onclick="togglePanel(this)">Graduation Pictorial – ₱450</button>
+    <div class="panel">
+      <p>10‑minute session · 1 × 8R print · <strong>5 edited softcopies</strong></p>
+      <div class="number-control">
+        <label>Extra Heads </label>
+        <button class="num-btn" onclick="updateQty('gradHeads',-1)">−</button>
+        <input id="gradHeads" class="num-input" type="number" value="0" min="0">
+        <button class="num-btn" onclick="updateQty('gradHeads',1)">+</button>
+      </div>
+      <label><input id="gradSoft" type="checkbox"> Get all softcopies (₱200)</label><br>
+      <button class="choose-button" onclick="addSession2('Graduation Pictorial',450,'gradHeads','gradSoft')">Choose This Session</button>
+    </div>
+  </div>
+  <!-- Prints & Services Tab -->
+  <div id="prints" class="tab-content">
+    <!-- Prints -->
+    <button class="accordion" onclick="togglePanel(this)">Prints</button>
+    <div class="panel">
+      <div class="number-control">
+        <label>Wallet (₱20)</label>
+        <button class="num-btn" onclick="updateQty('walletQty',-1)">−</button>
+        <input id="walletQty" class="num-input" type="number" value="0" min="0">
+        <button class="num-btn" onclick="updateQty('walletQty',1)">+</button>
+      </div>
+      <div class="number-control">
+        <label>3R (₱40)</label>
+        <button class="num-btn" onclick="updateQty('threeRQty',-1)">−</button>
+        <input id="threeRQty" class="num-input" type="number" value="0" min="0">
+        <button class="num-btn" onclick="updateQty('threeRQty',1)">+</button>
+      </div>
+      <div class="number-control">
+        <label>8R (₱100)</label>
+        <button class="num-btn" onclick="updateQty('eightRQty',-1)">−</button>
+        <input id="eightRQty" class="num-input" type="number" value="0" min="0">
+        <button class="num-btn" onclick="updateQty('eightRQty',1)">+</button>
+      </div>
+    </div>
+    <!-- Frames -->
+    <button class="accordion" onclick="togglePanel(this)">Framed Photo Board</button>
+    <div class="panel">
+      <div class="number-control">
+        <label>Small A4 (₱250)</label>
+        <button class="num-btn" onclick="updateQty('frameSmall',-1)">−</button>
+        <input id="frameSmall" class="num-input" type="number" value="0" min="0">
+        <button class="num-btn" onclick="updateQty('frameSmall',1)">+</button>
+      </div>
+      <div class="number-control">
+        <label>Medium 16×8.5″ (₱500)</label>
+        <button class="num-btn" onclick="updateQty('frameMed',-1)">−</button>
+        <input id="frameMed" class="num-input" type="number" value="0" min="0">
+        <button class="num-btn" onclick="updateQty('frameMed',1)">+</button>
+      </div>
+      <div class="number-control">
+        <label>Large 18×9.5″ (₱700)</label>
+        <button class="num-btn" onclick="updateQty('frameLarge',-1)">−</button>
+        <input id="frameLarge" class="num-input" type="number" value="0" min="0">
+        <button class="num-btn" onclick="updateQty('frameLarge',1)">+</button>
+      </div>
+    </div>
+  </div>
+  <!-- Actions -->
+  <div class="action-row">
+    <button class="main" onclick="showSummary()">Show Order</button>
+    <button class="clear" onclick="clearAll()">Clear Order</button>
+  </div>
+  <!-- Summary Section -->
+  <div id="summarySection" class="hidden">
+    <h2>Booking Summary</h2>
+    <table class="summary-table" id="summaryTable"></table>
+  </div>
+</div>
+<script>
+function switchTab(id,btn){document.querySelectorAll('.tab-content').forEach(el=>el.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.tab-button').forEach(b=>b.classList.remove('active'));btn.classList.add('active')}
+function togglePanel(btn){btn.classList.toggle('active');const p=btn.nextElementSibling;p.style.display=p.style.display==='block'?'none':'block'}
+function updateQty(id,delta){const inp=document.getElementById(id);inp.value=Math.max(0,parseInt(inp.value||0)+delta)}
+let sessions=[];
+function addSession(name,price,headsId,softId){const heads=parseInt(document.getElementById(headsId).value)||0;const soft=document.getElementById(softId).checked;const softFee=soft?200:0;const total=price+heads*500+softFee;sessions.push({name,price,heads,soft,softFee,total});alert(`${name} added to order`)}
+function addSession2(name,price,headsId,softId){const heads=parseInt(document.getElementById(headsId).value)||0;const soft=document.getElementById(softId).checked;const softFee=soft?200:0;const total=price+heads*450+softFee;sessions.push({name,price,heads,soft,softFee,total});alert(`${name} added to order`)}
+function showSummary(){const tbl=document.getElementById('summaryTable');tbl.innerHTML='';let grand=0;sessions.forEach(s=>{tbl.insertAdjacentHTML('beforeend',`<tr><td>${s.name}</td><td>${s.price}</td></tr>`);if(s.heads)tbl.insertAdjacentHTML('beforeend',`<tr><td>Extra Heads ${s.heads}</td><td> ${s.heads}</td></tr>`);if(s.soft)tbl.insertAdjacentHTML('beforeend',`<tr><td>All Softcopies</td><td>₱${s.softFee}</td></tr>`);grand+=s.total});const prints=[{id:'walletQty',label:'Wallet Prints',price:20},{id:'threeRQty',label:'3R Prints',price:40},{id:'eightRQty',label:'8R Prints',price:100}];prints.forEach(p=>{const q=parseInt(document.getElementById(p.id).value)||0;if(q){tbl.insertAdjacentHTML('beforeend',`<tr><td>${p.label} ×${q}</td><td>₱${q*p.price}</td></tr>`);grand+=q*p.price}});const frames=[{id:'frameSmall',label:'Small Frame',price:250},{id:'frameMed',label:'Medium Frame',price:500},{id:'frameLarge',label:'Large Frame',price:700}];frames.forEach(f=>{const q=parseInt(document.getElementById(f.id).value)||0;if(q){tbl.insertAdjacentHTML('beforeend',`<tr><td>${f.label} ×${q}</td><td>₱${q*f.price}</td></tr>`);grand+=q*f.price}});tbl.insertAdjacentHTML('beforeend',`<tr><td><strong>Total</strong></td><td><strong>₱${grand}</strong></td></tr>`);document.getElementById('summarySection').classList.remove('hidden')}
+function clearAll(){sessions=[];document.querySelectorAll('input[type="number"]').forEach(i=>i.value=0);document.querySelectorAll('input[type="checkbox"]').forEach(c=>c.checked=false);document.getElementById('summarySection').classList.add('hidden');document.getElementById('summaryTable').innerHTML=''}
+</script>
+</body>
+</html>
